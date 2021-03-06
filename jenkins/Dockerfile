@@ -1,0 +1,17 @@
+FROM sgtux/base-devsecops
+ARG DEBIAN_FRONTEND=noninteractive
+WORKDIR /root
+COPY ./files /root
+RUN apt update -y && \
+    apt install -y python3 python3-pip software-properties-common curl git unzip && \
+    pip3 install flask && \
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | apt-key add - && \
+    sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && \
+    wget https://packages.microsoft.com/config/ubuntu/19.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    apt update && \
+    apt install -y jenkins dotnet-sdk-3.1 openjdk-8-jdk && \
+    apt autoremove -y && \
+    apt clean && \
+    chmod +x init.sh
+CMD ["./init.sh"]
