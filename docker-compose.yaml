@@ -1,0 +1,14 @@
+version: '2.2'
+
+services:
+  database:
+    image: sgtux/database-devsecops
+    networks:
+      - lan
+
+networks:
+  lan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.18.0/24
