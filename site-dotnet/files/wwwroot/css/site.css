@@ -129,7 +129,7 @@ body {
   margin-top: 20px;
 }
 
-.perfil-line {
+.line {
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -141,3 +141,7 @@ body {
 
 }
 
+.app-footer {
+  margin-top: 40px;
+  text-align: center;
+}

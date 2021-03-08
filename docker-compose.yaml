@@ -4,11 +4,11 @@ services:
   database:
     image: sgtux/database-devsecops
     networks:
-      - lan
+      lan:
+        ipv4_address: 172.22.22.10
 
 networks:
   lan:
-    driver: bridge
     ipam:
       config:
-        - subnet: 172.18.18.0/24
+        - subnet: 172.22.22.0/24

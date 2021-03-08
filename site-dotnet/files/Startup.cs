@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Fakebook.Config;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Fakebook.Repositories;
 
 namespace Fakebook
 {
@@ -24,6 +26,14 @@ namespace Fakebook
 
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account";
+                });
+
+            services.AddScoped<UserRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -42,6 +52,7 @@ namespace Fakebook
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
