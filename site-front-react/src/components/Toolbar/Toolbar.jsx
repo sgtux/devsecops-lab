@@ -1,39 +1,66 @@
 import React from 'react'
 
-// import { FaBell } from 'react-icons/fa'
+import { authService } from '../../services'
+import { useDispatch } from 'react-redux'
+import { userChanged } from '../../store/actions'
 
-function Toolbar() {
+import {
+    FaHome,
+    FaUsers,
+    FaPlus,
+    FaComments,
+    FaBell,
+    FaSignOutAlt
+} from 'react-icons/fa'
+
+import {
+    ToolbarContainer,
+    ToolbarMain,
+    ToolbarTab,
+    ToolbarRight,
+    ToolbarButton,
+    Logo
+} from './styles'
+
+
+export function Toolbar() {
+
+    const dispatcher = useDispatch()
+
+    function logout() {
+        authService.logout()
+            .then(() => dispatcher(userChanged(null)))
+    }
+
     return (
-        <header class="toolbar">
-            <div style="flex: 1">
-                <img class="logo" src="./img/fakebook-icon.png" />
+        <ToolbarContainer>
+            <div style={{ flex: 1 }}>
+                <Logo src="fakebook-icon.png" />
             </div>
-            <div class="main">
-                <a class="tab" href="~/">
-                    <i class="fa fa-home fa-2x" aria-hidden="true"></i>
-                </a>
-                <a class="tab" href="~/friends">
-                    <i class="fa fa-users fa-2x" aria-hidden="true"></i>
-                </a>
-            </div>
-            <div class="toolbar-end">
+            <ToolbarMain>
+                <ToolbarTab selected={true}>
+                    <FaHome size={40} />
+                </ToolbarTab>
+                <ToolbarTab>
+                    <FaUsers size={40} />
+                </ToolbarTab>
+            </ToolbarMain>
+            <ToolbarRight>
                 <div>
-                    <button onclick="openNewPostModal()" class="toolbar-btn">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </button>
-                    <button class="toolbar-btn">
-                        <i class="fa fa-comments" aria-hidden="true"></i>
-                    </button>
-                    <button class="toolbar-btn">
-                        <i class="fa fa-bell" aria-hidden="true"></i>
-                    </button>
-                    <a href="~/account/logout">
-                        <button class="toolbar-btn">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                        </button>
-                    </a>
+                    <ToolbarButton>
+                        <FaPlus />
+                    </ToolbarButton>
+                    <ToolbarButton>
+                        <FaComments />
+                    </ToolbarButton>
+                    <ToolbarButton>
+                        <FaBell />
+                    </ToolbarButton>
+                    <ToolbarButton onClick={() => logout()}>
+                        <FaSignOutAlt />
+                    </ToolbarButton>
                 </div>
-            </div>
-        </header>
+            </ToolbarRight>
+        </ToolbarContainer>
     )
 }

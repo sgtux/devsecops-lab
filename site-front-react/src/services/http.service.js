@@ -1,9 +1,8 @@
 import axios from 'axios'
 
-const urlApi = "http://localhost:5000/"
-
-import axios from 'axios'
 import { storageService } from './'
+
+const urlApi = "http://localhost:5000/"
 
 const getToken = () => localStorage.getItem('TOKEN')
 
@@ -15,8 +14,8 @@ const sendRequest = (method, url, headers, data) => {
         data: data
     }).then(res => res.data)
         .catch(err => {
-            const { data } = err.response
-            throw data
+            const { data, status } = err.response
+            throw { message: data, status }
         })
 }
 
