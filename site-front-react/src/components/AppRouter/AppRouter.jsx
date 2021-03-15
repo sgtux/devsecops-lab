@@ -3,13 +3,13 @@ import './AppRouter.jsx'
 import { Route, Switch, HashRouter } from 'react-router-dom'
 import {
   PostList,
-  UserProfilePage
+  UserProfilePage,
+  People
 } from '../../scenes'
 import {
   Toolbar,
   Footer
 } from '../../components'
-
 
 export function AppRouter() {
 
@@ -20,7 +20,8 @@ export function AppRouter() {
       <Toolbar />
       <Switch>
         <Route path="/" exact={true} component={PostList} />
-        <Route path="/profile" component={UserProfilePage} />
+        <Route path="/profile/:id" component={UserProfilePage} />
+        <Route path="/people" component={People} />
       </Switch>
       <Footer />
     </HashRouter>

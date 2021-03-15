@@ -1,9 +1,5 @@
 import axios from 'axios'
 
-import { storageService } from './'
-
-const urlApi = "http://localhost:5000/"
-
 const getToken = () => localStorage.getItem('TOKEN')
 
 const sendRequest = (method, url, headers, data) => {

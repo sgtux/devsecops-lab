@@ -45,7 +45,7 @@ export const ToolbarRight = styled.div`
         margin-top: 12px;
         margin-right: 10px;
         justify-content: space-between;
-        width: 160px;
+        width: 200px;
     }
 `
 
@@ -61,4 +61,11 @@ export const ToolbarButton = styled.button`
         background-color: #535252;
         cursor: pointer;
     }
+`
+
+export const ToolbarUserPhoto = styled.img`
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
 `

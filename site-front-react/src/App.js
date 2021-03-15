@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Provider } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch, Provider } from 'react-redux'
+
 
 import { Auth } from './scenes'
 import { AppRouter } from './components'
 import Store from './store'
 import { authService } from './services'
-import { userChanged } from './store/actions'
+import { userChanged, toolbarTabChanged } from './store/actions'
 
 function App() {
 
@@ -16,7 +16,14 @@ function App() {
   useEffect(() => {
     authService.getAccount()
       .then(data => dispatcher(userChanged(data)))
-      .catch(err => console.log(err))
+    const urlHash = window.location.hash.replace('#', '')
+    switch (urlHash) {
+      case '/friends':
+        dispatcher(toolbarTabChanged(1))
+        break
+      default:
+        break
+    }
   }, [])
 
   return (

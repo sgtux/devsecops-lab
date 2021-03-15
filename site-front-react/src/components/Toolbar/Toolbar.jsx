@@ -1,8 +1,9 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import { authService } from '../../services'
-import { useDispatch } from 'react-redux'
-import { userChanged } from '../../store/actions'
+import { userChanged, toolbarTabChanged, showPostModal } from '../../store/actions'
 
 import {
     FaHome,
@@ -19,6 +20,7 @@ import {
     ToolbarTab,
     ToolbarRight,
     ToolbarButton,
+    ToolbarUserPhoto,
     Logo
 } from './styles'
 
@@ -26,6 +28,32 @@ import {
 export function Toolbar() {
 
     const dispatcher = useDispatch()
+
+    const user = useSelector(state => state.appState.user)
+    const tabIndex = useSelector(state => state.appState.tabIndex)
+
+    const history = useHistory()
+
+    function toPage(index) {
+        if (index !== tabIndex) {
+            dispatcher(toolbarTabChanged(index))
+            switch (index) {
+                case 0:
+                    history.push('/')
+                    break
+                case 1:
+                    history.push('/people')
+                    break
+                default:
+                    break
+            }
+        }
+    }
+
+    function toProfile() {
+        history.push(`/profile/${user.id}`)
+        toolbarTabChanged(-1)
+    }
 
     function logout() {
         authService.logout()
@@ -38,16 +66,17 @@ export function Toolbar() {
                 <Logo src="fakebook-icon.png" />
             </div>
             <ToolbarMain>
-                <ToolbarTab selected={true}>
+                <ToolbarTab onClick={() => toPage(0)} selected={tabIndex === 0}>
                     <FaHome size={40} />
                 </ToolbarTab>
-                <ToolbarTab>
+                <ToolbarTab onClick={() => toPage(1)} selected={tabIndex === 1}>
                     <FaUsers size={40} />
                 </ToolbarTab>
             </ToolbarMain>
             <ToolbarRight>
                 <div>
-                    <ToolbarButton>
+                    <ToolbarUserPhoto src={`img/${user.perfilPhoto || 'default-profile-picture.png'}`} onClick={() => toProfile()} />
+                    <ToolbarButton onClick={() => dispatcher(showPostModal())}>
                         <FaPlus />
                     </ToolbarButton>
                     <ToolbarButton>
